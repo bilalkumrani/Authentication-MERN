@@ -1,8 +1,10 @@
 import React from "react";
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const UpdateDetails = () => {
+  const navigate = useNavigate();
   const [user, setUser] = useState(
     localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
   );
@@ -25,9 +27,11 @@ const UpdateDetails = () => {
         },
         token: localStorage.getItem("token"),
       })
-      .then((data) =>
-        localStorage.setItem("user", JSON.stringify(data.data.user))
-      );
+      .then((data) => {
+        localStorage.setItem("user", JSON.stringify(data.data.user));
+        navigate("/");
+        window.location.reload();
+      });
   };
 
   return (

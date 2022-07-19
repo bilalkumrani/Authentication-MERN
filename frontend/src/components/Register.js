@@ -7,6 +7,7 @@ const Register = () => {
     name: "",
     email: "",
     password: "",
+    image: {},
   });
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,6 +24,18 @@ const Register = () => {
       .post("http://localhost:4000/register", signUpData)
       .then((data) => console.log(data.data.user.name));
   };
+
+  const onImageChange = (e) => {
+    setSignUpData((state) => {
+      const data = {
+        ...state,
+        [e.target.name]: e.target.files[0],
+      };
+      //console.log(data.image);
+      return data;
+    });
+  };
+
   return (
     <div>
       <div class="container mt-5">
@@ -56,6 +69,22 @@ const Register = () => {
                     type="password"
                     name="password"
                     onChange={handleChange}
+                  />
+                  <div class="invalid-feedback">
+                    Password must be 8 character!
+                  </div>
+                </div>
+
+                <div class="forms-inputs mb-4">
+                  {" "}
+                  <span>upload</span>{" "}
+                  <input
+                    autocomplete="off"
+                    type="file"
+                    name="image"
+                    onChange={onImageChange}
+                    multiple
+                    accept="image/*"
                   />
                   <div class="invalid-feedback">
                     Password must be 8 character!
