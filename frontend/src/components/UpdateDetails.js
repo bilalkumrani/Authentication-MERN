@@ -1,71 +1,70 @@
 import React from "react";
 import axios from "axios";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
-const Login = () => {
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      navigate("/");
-    }
-  }, []);
-  const [loginData, setLoginData] = useState({
-    email: "",
-    password: "",
-  });
+const UpdateDetails = () => {
+  const [user, setUser] = useState(
+    localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
+  );
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setLoginData((state) => {
+    setUser((state) => {
       return {
         ...state,
         [name]: value,
       };
     });
   };
-
   const handleSubmit = () => {
-    axios.post("http://localhost:4000/login", loginData).then((data) => {
-      localStorage.setItem("token", data.data.token);
-      localStorage.setItem("user", JSON.stringify(data.data.user));
-      navigate("/");
-    });
+    axios
+      .post("http://localhost:4000/update", {
+        user: {
+          name: user.name,
+          email: user.email,
+          _id: user._id,
+        },
+        token: localStorage.getItem("token"),
+      })
+      .then((data) =>
+        localStorage.setItem("user", JSON.stringify(data.data.user))
+      );
   };
+
   return (
-    <>
+    <div>
       <div class="container mt-5">
         <div class="row d-flex justify-content-center">
           <div class="col-md-6">
             <div class="card px-5 py-5" id="form1">
               <div class="form-data" v-if="!submitted">
                 <div class="forms-inputs mb-4">
-                  {" "}
+                  <span>Name</span>
+                  <input
+                    autocomplete="off"
+                    type="text"
+                    name="name"
+                    onChange={handleChange}
+                    value={user.name}
+                  />
+                  <div class="invalid-feedback">A valid Name is required!</div>{" "}
                   <span>Email or username</span>
                   <input
                     autocomplete="off"
                     type="text"
                     name="email"
                     onChange={handleChange}
+                    value={user.email}
                   />
                   <div class="invalid-feedback">A valid email is required!</div>
                 </div>
-                <div class="forms-inputs mb-4">
-                  {" "}
-                  <span>Password</span>{" "}
-                  <input
-                    autocomplete="off"
-                    type="password"
-                    name="password"
-                    onChange={handleChange}
-                  />
-                  <div class="invalid-feedback">
-                    Password must be 8 character!
-                  </div>
-                </div>
+
                 <div class="mb-3">
                   {" "}
-                  <button onClick={handleSubmit} className="btn btn-dark w-100">
-                    Login
+                  <button
+                    onClick={handleSubmit}
+                    className="btn btn-success w-100"
+                  >
+                    Update
                   </button>{" "}
                 </div>
               </div>
@@ -81,8 +80,8 @@ const Login = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
-export default Login;
+export default UpdateDetails;

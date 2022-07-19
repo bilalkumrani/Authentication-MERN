@@ -28,7 +28,7 @@ const Navbar = () => {
             </li>
             <li className="nav-item">
               <a className="nav-link" href="/login">
-                Login
+                {localStorage.getItem("user") ? "Logout" : "Login"}
               </a>
             </li>
             <li className="nav-item">
@@ -39,7 +39,9 @@ const Navbar = () => {
           </ul>
           <div className="nav-item">
             <a className="nav-link" href="#">
-              Name
+              {localStorage.getItem("user")
+                ? JSON.parse(localStorage.getItem("user")).name
+                : "Name"}
             </a>
           </div>
           <div>

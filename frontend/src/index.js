@@ -7,6 +7,7 @@ import Home from "./components/Home";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import Navbar from "./components/Navbar";
+import UpdateDetails from "./components/UpdateDetails";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
@@ -16,6 +17,7 @@ root.render(
         <Route index element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/update" element={<UpdateDetails />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

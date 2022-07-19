@@ -12,10 +12,10 @@ const loginController = async (req, res) => {
       return res.json({ error: true, message: "incorrect email or password" });
     } else {
       if (await bcrypt.compare(password, user.password)) {
-        const token = jwt.sign({ _id: user._id }, "jkjsdhfj", {
+        const token = jwt.sign({ _id: user._id }, "123", {
           expiresIn: 3 * 24 * 60 * 60,
         });
-        return res.json({ token, message: "logged in successfully" });
+        return res.json({ user, token, message: "logged in successfully" });
       } else {
         return res.json({
           error: true,
